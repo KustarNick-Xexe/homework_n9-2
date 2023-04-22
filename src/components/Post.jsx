@@ -1,14 +1,18 @@
 import Profile from './Profile'
 import Comment from './Comment';
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 
 const Post = ({ info }) => {
+  const [now, setNow] = useState(new Date());
+  const createdAt = new Date(info.created);
+
   return (
     <>
-      <NavLink to={`/posts/${ info.id }`} state={ { id: info.id } }>
+      <NavLink to={`/posts/${ info.id }`} state={ { post: info } }>
       <div className='w-600 h-auto bg-white border-x border-t border-slate-300 pt-4 px-4 rounded-t-lg shadow-sm shadow-slate-300'>
-          <Profile /> 
-          <textarea className='text-3xl my-4 outline-none overflow-hidden resize-none w-full h-auto'>{ info.content }</textarea>
+          <Profile created={ now.getMinutes() - createdAt.getMinutes() }/> 
+          <textarea className='text-3xl my-4 outline-none overflow-hidden resize-none w-full h-auto' readOnly>{ info.content }</textarea>
           <div className='flex justify-around border-t border-slate-300 py-4'>
             <button className='text-slate-600 font-bold text-sm flex flex-nowrap items-center'>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 mr-2">

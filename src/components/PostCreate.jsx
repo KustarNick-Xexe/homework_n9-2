@@ -7,7 +7,7 @@ const PostCreate = () => {
     const text = useRef();
     
     const handleClick = () => {
-        const post = {"id": uuidv4(), "content": text.current.value };
+        const post = {"id": uuidv4(), "content": text.current.value, created: new Date() };
         console.log(post);
         axios.post('http://localhost:7070/posts', post)
           .then(response => {
@@ -67,12 +67,14 @@ const PostCreate = () => {
         </div>
         <textarea 
             ref={ text }
-            className='text-3xl my-4 outline-none overflow-hidden resize-none w-full block h-auto'>Какой-то контент внутри поста</textarea>   
+            className='text-3xl my-4 outline-none overflow-hidden resize-none w-full block h-auto'></textarea>   
     </div>
     <div className="flex justify-end bg-white w-600 p-2 mb-4 border border-slate-300 rounded-b-lg shadow-sm shadow-slate-300">
-        <button 
-            onClick={ handleClick }
-            className=' bg-blue-700 text-white py-1 px-3 rounded-sm font-bold text-sm'>Опубликовать</button>
+        <NavLink to='/'>
+            <button 
+                onClick={ handleClick }
+                className=' bg-blue-700 text-white py-1 px-3 rounded-sm font-bold text-sm'>Опубликовать</button>
+        </NavLink>
     </div>
     </>
   );

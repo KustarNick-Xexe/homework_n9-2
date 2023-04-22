@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid';
 import { useState, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 
 const Editor = (props) => {
   const text = useRef();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const location = useLocation();
   
 
@@ -16,8 +16,8 @@ const Editor = (props) => {
 
   const handleButtonClick = () => { 
     console.log('Обновилось')
-    const post = {"id": location.state.id, "content": text.current.value };
-    axios.post('http://localhost:7070/posts', post)
+    const post = { "content": text.current.value };
+    axios.put(`http://localhost:7070/posts/${ location.state.post.id }`, post)
       .then(response => {
         console.log(response.data);
       })
@@ -26,11 +26,10 @@ const Editor = (props) => {
       });
   };
 
-
   return (
     isVisible &&
     <div>
-      <div className='w-600 h-auto bg-slate-100 border border-slate-300 py-2 px-4 rounded-t-lg shadow-sm shadow-slate-300'>
+      <div className='w-600 h-auto bg-slate-100 border border-slate-300 py-2 px-4 rounded-t-lg shadow-sm shadow-slate-300 box-border'>
         <div className=' flex justify-between'>
             <p>Редактировать публикацию</p>
             <button onClick={ handleClick }>
@@ -45,7 +44,7 @@ const Editor = (props) => {
         <div className='w-8 h-8 bg-slate-500 rounded-full mr-4'></div>
         <textarea 
           ref = { text }
-          className='text-xl outline-none overflow-hidden resize-none w-full min-h-min'>Какой-то контент внутри поста</textarea>
+          className='text-xl outline-none overflow-hidden resize-none w-full min-h-min'>{ location.state.post.content }</textarea>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 absolute right-0 bottom-2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
         </svg>
@@ -85,9 +84,11 @@ const Editor = (props) => {
       </ul>
       </div>
       <div className="flex justify-end bg-slate-100 w-600 p-2 mb-4 border border-slate-300 rounded-b-lg shadow-sm shadow-slate-300">
+        <NavLink to='/'>
           <button 
           className=' bg-blue-700 text-white py-1 px-3 rounded-sm font-bold text-sm'
           onClick={ handleButtonClick }>Сохранить</button>
+        </NavLink>
       </div>
     </div>
   );
