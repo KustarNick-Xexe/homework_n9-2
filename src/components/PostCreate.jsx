@@ -1,11 +1,14 @@
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid';
 import { useRef } from 'react';
+import { NavLink } from 'react-router-dom';
 
 const PostCreate = () => {
     const text = useRef();
+    
     const handleClick = () => {
         const post = {"id": uuidv4(), "content": text.current.value };
+        console.log(post);
         axios.post('http://localhost:7070/posts', post)
           .then(response => {
             console.log(response.data);
@@ -54,11 +57,13 @@ const PostCreate = () => {
                     </button>
                 </li>
             </ul>
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </div>
+            <NavLink to='/'>
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </NavLink>
         </div>
         <textarea 
             ref={ text }

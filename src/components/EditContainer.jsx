@@ -3,16 +3,17 @@ import PostEdit from "./PostEdit";
 import { useState } from "react";
 
 function EditContainer(props) {
-    const [showComponent1, setShowComponent1] = useState(true);
+    const [showComponent, setShowComponent] = useState(true);
   
     const handleButtonClick = () => {
-      setShowComponent1(!showComponent1);
+      console.log(showComponent)
+      setShowComponent(!showComponent);
     };
   
     return (
       <div>
-        {showComponent1 ? (
-          <PostEdit onButtonClick={handleButtonClick} id={ props.match.params.id }/>
+        {showComponent ? (
+          <PostEdit onButtonClick={handleButtonClick} />
         ) : (
           <Editor onButtonClick={handleButtonClick} />
         )}

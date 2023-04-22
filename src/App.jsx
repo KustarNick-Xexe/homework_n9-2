@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Posts from './components/Posts';
 import PostCreate from './components/PostCreate';
-import PostContainer from './components/PostContainer';
+import EditContainer from './components/EditContainer';
 import Editor from './components/Editor';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -10,7 +10,7 @@ const App = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    axios.delete(`http://localhost:7070/posts`)
+    axios.get(`http://localhost:7070/posts`)
       .then(response => {
         console.log(response.data);
         setPosts(prevState => {
@@ -32,7 +32,7 @@ const App = () => {
             <Routes>
               <Route path="/" exact element={ <Posts posts={ posts }/> } />
               <Route path="/posts/new" element={ <PostCreate /> } />
-              <Route path="/posts/:id" element={ <PostContainer /> } />
+              <Route path="/posts/:id" element={ <EditContainer /> } />
               <Route path="/posts" element={ <Editor />} />
             </Routes>
         </div>
